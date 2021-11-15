@@ -2,11 +2,14 @@ import random
 import numpy as np
 
 def main():
+    "Procédure principale"
     ld = Loader("/home/siegfried/Python/PNJMaker/ressources/data.ini")
-    monPnj = Pnj(ld)
-    print(monPnj)
+    for _ in range(20):
+        print(Pnj(ld))
 
 class Tools:
+    "Contient des méthodes de calcul et de génération"
+
     def loi_normale(mu, sigma):
         "Renvoie le premier entier strictement positif généré selon une loi normale."
         n = 0
@@ -22,9 +25,11 @@ class Tools:
         else: return opener+closer
 
 class Pnj:
+    "Contient les méthodes permettant de créer un objet PnJ"
+
     def __init__(self,ld):
         "Initialise un nouvel objet PnJ"
-        self.sexe = "F" if(random.randrange(1)==0) else "M"
+        self.sexe = "F" if(random.randrange(2)==0) else "M"
         self.name = Tools.gen_nom(self.sexe,ld)
         self.age = Tools.loi_normale(30,20)
 
@@ -33,6 +38,8 @@ class Pnj:
         return f"{self.name} est âgé de {self.age} ans."
 
 class Loader:
+    "Classe de chargement des datas en un dictionnaire"
+    
     def __init__(self,fichier):
         "Chargement du fichier de données en un dico de listes"
         self.dict = {}
@@ -41,8 +48,6 @@ class Loader:
                 l = l[:-1]
                 a,b = l.split(":")[0],l.split(":")[1]
                 self.dict[a] = b.split(",")
-
-
 
 # si on lance via ligne de commande, on exécute la fonction main
 if __name__ == "__main__":
