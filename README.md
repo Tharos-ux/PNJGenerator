@@ -1,6 +1,9 @@
-#PNJMaker
+# PNJMaker #
+
 Ce projet vise à offrir aux rôlistes un script simple, flexible et paramétrable, pour créer des ensembles de caractéristiques de personnages-non-joueurs à la volée durant une session de jeu de rôle.
+
 ![Interface](https://media.discordapp.net/attachments/555328372213809153/909890438561951774/unknown.png)
+
 L'interface graphique sera sujette à changement, mais le coeur de fonctionnalités restera sensiblement le même, sauf si des requêtes pertinentes sont soulevées.
 
 Requiert Python 3.7. Peut être lancé en ligne de commande avec la commande bash 'python main.py'.
@@ -16,8 +19,10 @@ Opener:Aa,Ab,Ac,Ad,Ae,Af,Ag,Ah,Ai,Aj,Ak,Al,Am,An,O,U,Y,X,Z
 CloserF:ëna,ta,na,neth,a,sa,lia,ia,mee,ee,e,le,ine,ne,ina,i,ni,ri,ika
 CloserM:al,ar,r,n,l,dar,don,dir,dun,nar,r,ar,tun,thul,ul,un,um,inn,in,ur,ish,esh
 Middle:a,e,i,o,u,y,hi,ri,ho,fi,no,l,m,n,el,f,w,r
-# Le pipe (|) décrit que la ligne est en lien symbolique et va se présenter comme telle : |Champ=Valeur>Sous-champ:val1,val2,val3 ...
-# Le pourcent (%) décrit que la ligne va présenter des pourcentages de chance d'apparition. La somme sur une lige doit faire 100.
+# Le pipe (|) décrit que la ligne est en lien symbolique et va se présenter comme telle :
+# |Champ=Valeur>Sous-champ:val1,val2,val3 ...
+# Le pourcent (%) décrit que la ligne va présenter des pourcentages de chance d'apparition.
+# La somme sur une lige doit faire 100.
 # ------------------------------------------
 # Items facultatifs
 #
