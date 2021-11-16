@@ -16,25 +16,11 @@ def main():
         lst.append([key,monPnj.carac[key]])
    
     total_rows = len(lst) 
-    total_columns = len(lst[0]) 
-   
-    
+    total_columns = len(lst[0])
 
-class Interface:
-
-    def __init__(self):
-        root = tkinter.Tk() 
-
-        self.boutonGen = tkinter.Button(root, text ="Générer PnJ", command = afficherPnJ)
-        self.boutonGen.pack()
-        
-        root.mainloop() 
-
-    
-    def afficherPnJ():
-        tableau = tkinter.Tk() 
-        t = Table(tableau,total_rows,total_columns,lst) 
-        tableau.mainloop() 
+    tableau = tkinter.Tk() 
+    t = Table(tableau,total_rows,total_columns,lst) 
+    tableau.mainloop()  
 
 class Table: 
       
@@ -42,7 +28,7 @@ class Table:
         for i in range(total_rows): 
             for j in range(total_columns): 
                   
-                self.e = tkinter.Entry(root, width=20, fg='blue', font=('Arial',16,'bold')) 
+                self.e = tkinter.Entry(root, width=20, fg='black', font=('Arial',16,'bold')) 
                   
                 self.e.grid(row=i, column=j) 
                 self.e.insert(tkinter.END, lst[i][j])
@@ -71,12 +57,28 @@ class Tools:
         for key in ld.dict:
             if(key not in blacklist):
                 if(key[0]=='%'):
-                    # on doit sélectionner selon une probabilité
-                    probas,valeurs = [],[]
-                    for e in ld.dict[key]:
-                        probas.append(e.split('%')[0])
-                        valeurs.append(e.split('%')[1])
-                    dico[key[1:]] = np.random.choice(valeurs,1,probas)[0]
+                    if(key[1]=='|'):
+                        probas,valeurs = [],[]
+                        for e in ld.dict[key]:
+                            probas.append(e.split('%')[0])
+                            valeurs.append(e.split('%')[1])
+                        # caractère chainé en fonction d'une autre caractéristique + proba
+                        test,cle = key.split('~')[0],key.split('~')[1]
+                        filtre,val,comparateur = test.split(' ')[0][2:],test.split(' ')[2],test.split(' ')[1]
+                        if(filtre in dico.keys()):
+                            if(comparateur=="=="):
+                                if(dico[filtre]==val): dico[cle] = np.random.choice(valeurs,1,probas)[0]
+                            if(comparateur==">="):
+                                if(int(dico[filtre])>=int(val)): dico[cle] = np.random.choice(valeurs,1,probas)[0]
+                            if(comparateur=="<="):
+                                if(int(dico[filtre])<=int(val)): dico[cle] = np.random.choice(valeurs,1,probas)[0]
+                    else:
+                        # on doit sélectionner selon une probabilité simple
+                        probas,valeurs = [],[]
+                        for e in ld.dict[key]:
+                            probas.append(e.split('%')[0])
+                            valeurs.append(e.split('%')[1])
+                        dico[key[1:]] = np.random.choice(valeurs,1,probas)[0]
                 elif(key[0]=='|'):
                     # caractère chainé en fonction d'une autre caractéristique
                     test,cle = key.split('~')[0],key.split('~')[1]
