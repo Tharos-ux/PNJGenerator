@@ -13,7 +13,7 @@ def main():
     lst = []
 
     for key in monPnj.carac:
-        lst.append([key,monPnj.carac[key]])
+        lst.append([key.replace('_',' '),monPnj.carac[key]])
    
     total_rows = len(lst) 
     total_columns = len(lst[0])
@@ -53,7 +53,7 @@ class Tools:
     def fill(ld,sexe,nom,age):
         "Effectue une attribution des caractéristiques annexes"
         blacklist = ["Opener","CloserM","CloserF","Middle"]
-        dico = {'Nom' : nom,'Age' : age, 'Sexe biologique' : sexe}
+        dico = {'Nom' : nom,'Age' : age, 'Sexe_biologique' : sexe}
         for key in ld.dict:
             if(key not in blacklist):
                 if(key[0]=='%'):
