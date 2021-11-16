@@ -68,10 +68,15 @@ class Tools:
                     dico[key[1:]] = np.random.choice(valeurs,1,probas)[0]
                 elif(key[0]=='|'):
                     # caractère chainé en fonction d'une autre caractéristique
-                    test,cle = key.split('>')[0],key.split('>')[1]
-                    filtre,val = test.split('=')[0][1:],test.split('=')[1]
+                    test,cle = key.split('~')[0],key.split('~')[1]
+                    filtre,val,comparateur = test.split(' ')[0][1:],test.split(' ')[2],test.split(' ')[1]
                     if(filtre in dico.keys()):
-                        if(dico[filtre]==val): dico[cle] = random.choice(ld.dict[key])
+                        if(comparateur=="=="):
+                            if(dico[filtre]==val): dico[cle] = random.choice(ld.dict[key])
+                        if(comparateur==">="):
+                            if(int(dico[filtre])>=int(val)): dico[cle] = random.choice(ld.dict[key])
+                        if(comparateur=="<="):
+                            if(int(dico[filtre])<=int(val)): dico[cle] = random.choice(ld.dict[key])
                 else:
                     # sélection aléatoire basique
                     dico[key] = random.choice(ld.dict[key])
