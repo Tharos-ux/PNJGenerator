@@ -1,7 +1,11 @@
 import random
 import numpy as np
 import tkinter
+from flask import Flask
 
+app = Flask(__name__)
+
+@app.route("/")
 def main():
     "Procédure principale"
     ld = Loader("data.ini")
@@ -14,38 +18,9 @@ def main():
 
     for key in monPnj.carac:
         lst.append([key,monPnj.carac[key]])
-   
-    total_rows = len(lst) 
-    total_columns = len(lst[0]) 
-   
-    
 
-class Interface:
-
-    def __init__(self):
-        root = tkinter.Tk() 
-
-        self.boutonGen = tkinter.Button(root, text ="Générer PnJ", command = afficherPnJ)
-        self.boutonGen.pack()
-        
-        root.mainloop() 
-
-    
-    def afficherPnJ():
-        tableau = tkinter.Tk() 
-        t = Table(tableau,total_rows,total_columns,lst) 
-        tableau.mainloop() 
-
-class Table: 
-      
-    def __init__(self,root,total_rows,total_columns,lst): 
-        for i in range(total_rows): 
-            for j in range(total_columns): 
-                  
-                self.e = tkinter.Entry(root, width=20, fg='blue', font=('Arial',16,'bold')) 
-                  
-                self.e.grid(row=i, column=j) 
-                self.e.insert(tkinter.END, lst[i][j])
+    for e in lst:
+        print(str(e[0])+" = "+str(e[1]))
 
 class Tools:
     "Contient des méthodes de calcul et de génération"
