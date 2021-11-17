@@ -22,6 +22,8 @@ def affichage(ld):
 
     fenetre = Tk()
     fenetre.geometry("300x350")
+    #fenetre.overrideredirect(True)
+    fenetre.title("PNJMaker")
 
     label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10))
     label.pack()
