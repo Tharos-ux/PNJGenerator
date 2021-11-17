@@ -2,31 +2,36 @@ import random
 import numpy as np
 import tkinter
 import sys
+import interface
 
 def main():
     "Procédure principale"
     ld = Loader("data.ini")
 
-    monPnj = Pnj(ld)
-
-    # Linéarisation de la donnée
-
-    lst = []
-
-    for key in monPnj.carac:
-        lst.append([key.replace('_',' '),monPnj.carac[key]])
-
     # permet un affichage non-graphique
     if("-ng" in sys.argv):
+        monPnj = nouveauPnj(ld)
+        lst = []
+        for key in monPnj.carac:
+            lst.append([key.replace('_',' '),monPnj.carac[key]])
         for e in lst:
             print(f"{e[0]} = {e[1]}")
-    
-    else:
+    elif("-old" in sys.argv):
+        monPnj = nouveauPnj(ld)
+        lst = []
+        for key in monPnj.carac:
+            lst.append([key.replace('_',' '),monPnj.carac[key]])
         total_rows = len(lst) 
         total_columns = len(lst[0])
         tableau = tkinter.Tk() 
         t = Table(tableau,total_rows,total_columns,lst) 
-        tableau.mainloop()  
+        tableau.mainloop()
+    else:
+        interface.affichage(ld)
+        
+
+def nouveauPnj(ld):
+    return Pnj(ld)
 
 class Table: 
       
@@ -50,7 +55,7 @@ class Tools:
         return int(n[0])
 
     def gen_nom(sexe,ld):
-        "Sexe doit être au format M ou F"
+        "Sexe biologique doit être au format Masculin ou Féminin"
         opener,closer,mid1,mid2,a = random.choice(ld.dict["Opener"]),random.choice(ld.dict["Closer"+sexe[0]]),random.choice(ld.dict["Middle"]),random.choice(ld.dict["Middle"]),random.randrange(3)
         if(a==0): return opener+mid1+mid2+closer
         elif(a==1): return opener+closer+mid1+closer
@@ -73,14 +78,7 @@ class Tools:
                         test,cle = key.split('~')[0],key.split('~')[1]
                         filtre,val,comparateur = test.split(' ')[0][2:],test.split(' ')[2],test.split(' ')[1]
                         if(filtre in dico.keys()):
-                            if(comparateur=="=="):
-                                if(dico[filtre]==val[1:-1]): dico[cle] = np.random.choice(valeurs,p=probas)
-                            if(comparateur=="!="):
-                                if(dico[filtre]!=val[1:-1]): dico[cle] = np.random.choice(valeurs,p=probas)
-                            if(comparateur==">="):
-                                if(int(dico[filtre])>=int(val)): dico[cle] = np.random.choice(valeurs,p=probas)
-                            if(comparateur=="<="):
-                                if(int(dico[filtre])<=int(val)): dico[cle] = np.random.choice(valeurs,p=probas)
+                            if(comparateur=="==" and dico[filtre]==val[1:-1]) or (comparateur=="!=" and dico[filtre]!=val[1:-1]) or (comparateur==">=" and int(dico[filtre])>=int(val)) or (comparateur=="<=" and int(dico[filtre])<=int(val)): dico[cle] = np.random.choice(valeurs,p=probas)
                     else:
                         # on doit sélectionner selon une probabilité simple
                         probas,valeurs = [],[]
@@ -94,14 +92,7 @@ class Tools:
                     filtre,val,comparateur = test.split(' ')[0][1:],test.split(' ')[2],test.split(' ')[1]
                     if(filtre in dico.keys()):
                         # print(f"On compare {str(dico[filtre])} à {val[1:-1]} selon le comparateur {comparateur}. Sont-ils égaux ? {str(dico[filtre])==str(val[1:-1])}")
-                        if(comparateur=="=="):
-                            if(dico[filtre]==val[1:-1]): dico[cle] = random.choice(ld.dict[key])
-                        if(comparateur=="!="):
-                            if(dico[filtre]!=val[1:-1]): dico[cle] = random.choice(ld.dict[key])
-                        if(comparateur==">="):
-                            if(int(dico[filtre])>=int(val)): dico[cle] = random.choice(ld.dict[key])
-                        if(comparateur=="<="):
-                            if(int(dico[filtre])<=int(val)): dico[cle] = random.choice(ld.dict[key])
+                        if(comparateur=="==" and dico[filtre]==val[1:-1]) or (comparateur=="!=" and dico[filtre]!=val[1:-1]) or (comparateur==">=" and int(dico[filtre])>=int(val)) or (comparateur=="<=" and int(dico[filtre])<=int(val)): dico[cle] = random.choice(ld.dict[key])
                 else:
                     # sélection aléatoire basique
                     dico[key] = random.choice(ld.dict[key])
