@@ -2,7 +2,7 @@
 
 Ce projet vise à offrir aux rôlistes un script simple, flexible et paramétrable, pour créer des ensembles de caractéristiques de personnages-non-joueurs à la volée durant une session de jeu de rôle.
 
-![Interface](https://media.discordapp.net/attachments/555328372213809153/909890438561951774/unknown.png)
+![Interface](https://media.discordapp.net/attachments/317577929955737601/910485242324865084/unknown.png)
 
 L'interface graphique sera sujette à changement, mais le coeur de fonctionnalités restera sensiblement le même, sauf si des requêtes pertinentes sont soulevées.
 
@@ -43,7 +43,7 @@ Couleur de peau:rose,orangée
 |Age >= 60~Rides:légères,prononcées
 %Regard:10%distrait,5%éteint,5%inexpressif,5%morne,10%perçant,10%préoccupé,10%scrutateur,15%soucieux,5%strabisme,10%vague,5%vide,10%vif
 ```
-Si vous souhaitez personnaliser la base de données sur laquelle se base l'application, modifiez le document texte .ini dans le dossier où se trouve le script 'main.py'
-Une catégorie correspond à une ligne. Attention à ne pas supprimer les lignes nécessaires au bon déroulement du programme ! Vous pouvez en changer les valeurs sans problème.
-Il est possible d'utiliser des émulations d'expressions régulières pour effectuer des choix probabilisés, des filtrages simples ou des filtrages probabilisés !
-Veillez également à ne pas laisser de ligne vide, ou une exception sera levée.
+Si vous souhaitez personnaliser la base de données sur laquelle se base l'application, modifiez le document texte .ini dans le dossier où se trouve le script 'main.py'  
+Une catégorie correspond à une ligne. Attention à ne pas supprimer les lignes nécessaires au bon déroulement du programme ! Vous pouvez en changer les valeurs sans problème.  
+Il est possible d'utiliser des émulations d'expressions régulières pour effectuer des choix probabilisés, des filtrages simples ou des filtrages probabilisés !  
+Veillez également à ne pas laisser de ligne vide, ou une exception sera levée.  
