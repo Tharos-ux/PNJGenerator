@@ -38,12 +38,13 @@ def affichage(ld):
     btnGauche["state"] = "disabled"
     # quitter
     Button(cadre, text='Quitter',bg='black', fg='white', command=fenetre.destroy).pack(padx=5, pady=5, side=LEFT, expand=1)
-    btnSave = Button(cadre, text='Sauver', bg='black', fg='white', command=lambda indent=index : sauvegarde(indent))
+    btnSave = Button(cadre, text='Sauver', bg='black', fg='white', command=lambda indent=0 : sauvegarde(indent))
     btnSave.pack(padx=5, pady=5, side=LEFT)
     btnDroite = Button(cadre, text='>', bg='black', fg='white', command=lambda indent=1 : actualise(indent))
     btnDroite.pack(padx=5, pady=5, side=LEFT)
 
-    def sauvegarde(index):
+    def sauvegarde(a):
+        global index
         with open("sauvegardes.txt","a") as writer:
             writer.write(linearisationSave(listePnj[index]))
 
