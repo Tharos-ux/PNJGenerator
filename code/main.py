@@ -1,3 +1,5 @@
+#!/usr/bin/python3.10
+
 import random
 import numpy as np
 import tkinter
@@ -176,6 +178,16 @@ class Regexpr:
 
     def res(expr):
         "Evaluation d'une expression régulière"
+        """
+        match expr:
+            case Or(expr1,expr2)):
+                return (res(expr1) or res(expr2))
+            case And(expr1,expr2)):
+                return (res(expr1) and res(expr2))
+            case Vide() :
+                return True
+
+        """
         if (expr == Or(expr1,expr2)):
             return (res(expr1) or res(expr2))
         if (expr == And(expr1,expr2)):
