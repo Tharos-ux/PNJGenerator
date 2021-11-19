@@ -6,9 +6,7 @@ Ce projet vise à offrir aux rôlistes un script simple, flexible et paramétrab
 
 L'interface graphique sera sujette à changement, mais le coeur de fonctionnalités restera sensiblement le même, sauf si des requêtes pertinentes sont soulevées.
 
-Requiert Python 3.7. Peut être lancé en ligne de commande avec la commande bash 'python3.10 main.py'.
-
-Cette application nécessite python 3.10, utilisant le structural pattern matching pour la gestion d'expression régulières.
+Requiert Python 3.10,utilisant le structural pattern matching pour la gestion d'expression régulières. Peut être lancé en ligne de commande avec la commande bash 'python3.10 main.py'.
 
 ```ini
 # Ce fichier est éditable selon votre bon loisir.
