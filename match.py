@@ -66,9 +66,9 @@ class Regexpr:
 
     
 
-expression = Regexpr.And(True,True)
+#expression = Regexpr.And(True,True)
 
-print(Regexpr.res(Regexpr.Element("Texte","==","Texte")))
+#print(Regexpr.res(Regexpr.Element("Texte","==","Texte")))
 
 #Ethnie == "Alastraar" & Age >= 20~Test:valide
 def conversion(string):
@@ -98,7 +98,7 @@ def conv(liste):
 
 #print('Test == aaaa & Oui === bbbb'.split(' ')[4:])
 
-print(conv('Test == aaaa & Oui == bbbb'.split(' ')))
+print(conv('Test == aaaa & Oui == bbbb $ Non == cccc'.split(' ')))
 
 """
     def pick_car(ld,key,probabiliste):
