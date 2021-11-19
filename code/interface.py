@@ -22,7 +22,7 @@ def affichage(ld):
     fenetre.geometry("300x350")
     #fenetre.overrideredirect(True)
     fenetre.title("PNJMaker")
-    label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10), image= bg)
+    label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10))
     label.pack()
     #conteneur = Canvas(fenetre, bg='white', height=500, width=300)
     #conteneur.pack()
