@@ -73,10 +73,10 @@ Couleur_des_cheveux:roux clair,roux moyen,noir,brun,châtain foncé,châtain,ch�
 %|Ethnie == "Alastraar" & Age >= 15~Entend_les_murmures:30%oui,70%non
 ```
 
-Le pipe (|) décrit que la ligne est en lien symbolique et va se présenter comme telle : |Champ == Valeur~Sous-champ:val1,val2,val3 ...
-Le pourcent (%) décrit que la ligne va présenter des pourcentages de chance d'apparition. La somme sur une lige doit faire 100.
-L'espérluette (&) et le dollar ($) correspondent respectivement aux AND et OR logiques.
-Exemple : %|Ethnie == "Alastraar" & Age >= 15~Entend_les_murmures:30%oui,70%non
+Le pipe (|) décrit que la ligne est en lien symbolique et va se présenter comme telle : |Champ == Valeur~Sous-champ:val1,val2,val3 ...  
+Le pourcent (%) décrit que la ligne va présenter des pourcentages de chance d'apparition. La somme sur une lige doit faire 100.  
+L'espérluette (&) et le dollar ($) correspondent respectivement aux AND et OR logiques.  
+Exemple : %|Ethnie == "Alastraar" & Age >= 15~Entend_les_murmures:30%oui,70%non  
 
 Ce fichier est éditable selon votre bon loisir.
 
