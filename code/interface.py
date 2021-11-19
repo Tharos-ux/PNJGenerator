@@ -20,12 +20,13 @@ def affichage(ld):
     global index
     index = 0
 
+    bg = PhotoImage(file = "Your_image.png")
     fenetre = Tk()
     fenetre.geometry("300x350")
     #fenetre.overrideredirect(True)
     fenetre.title("PNJMaker")
 
-    label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10))
+    label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10), image= bg)
     label.pack()
 
     #conteneur = Canvas(fenetre, bg='white', height=500, width=300)
