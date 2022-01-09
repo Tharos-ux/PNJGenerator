@@ -1,10 +1,9 @@
 #!/usr/bin/python3.10
 
 import random
-#import numpy as np
-import tkinter
 import sys
 import interface
+import numpy
 
 def main():
     "Procédure principale"
@@ -52,7 +51,7 @@ class Tools:
         "Renvoie le premier entier strictement positif généré selon une loi normale."
         n = 0
         while (n<=0):
-            n = random.random() * sigma + mu
+            n = numpy.random.normal(sigma,mu,1)[0]
         return int(n)
 
     def weighted_choice(keys,probas):
@@ -69,12 +68,17 @@ class Tools:
             i+=1 # retourne la première occurence d'un nombre inférieur
         return keys[-1] # ou la dernière occurence de la liste sinon
 
-    def gen_nom(sexe,ld):
+    def gen_nom(sexe,ld,composed=True):
         "Sexe biologique doit être au format Masculin ou Féminin"
         opener,closer,mid1,mid2,a = random.choice(ld.dict["Opener"]),random.choice(ld.dict["Closer"+sexe[0]]),random.choice(ld.dict["Middle"]),random.choice(ld.dict["Middle"]),random.randrange(3)
-        if(a==0): return opener+mid1+mid2+closer
-        elif(a==1): return opener+closer+mid1+closer
-        else: return opener+closer
+        if(composed): # renvoie un nom
+            if(a==0): return opener+mid1+mid2+closer
+            elif(a==1): return opener+mid1+closer
+            else: return opener+closer
+        else:
+            if(a==0): return f"{opener},{mid1},{mid2},{closer},{opener}{mid1}{mid2}{closer},{sexe[0]}"
+            elif(a==1): return f"{opener},{mid1},,{closer},{opener}{mid1}{closer},{sexe[0]}"
+            else: return f"{opener},,,{closer},{opener}{closer},{sexe[0]}"
 
     def fill_regexpr(ld,sexe,nom,age):
         "Effectue une attribution des caractéristiques annexes"
@@ -152,7 +156,7 @@ class Pnj:
         "Initialise un nouvel objet PnJ"
         self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
         self.name = Tools.gen_nom(self.sexe,ld)
-        self.age = Tools.loi_normale(10,10)
+        self.age = Tools.loi_normale(28,13)
         self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
 
     def __str__(self):

@@ -23,11 +23,6 @@ def affichage(ld):
     fenetre.title("PNJMaker")
     label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10))
     label.pack()
-<<<<<<< HEAD
-=======
-    #conteneur = Canvas(fenetre, bg='white', height=500, width=300)
-    #conteneur.pack()
->>>>>>> main
     cadre = Frame(fenetre)
     cadre.pack(padx=5, pady=5,side=BOTTOM)
     # changer de pnj
