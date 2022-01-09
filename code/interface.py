@@ -15,26 +15,16 @@ def linearisationSave(monPnj):
     return string
 
 def affichage(ld):
-
     listePnj = [main.nouveauPnj(ld)] # le Pnj créé initialement est mis dans la liste
     global index
     index = 0
-
-    bg = PhotoImage(file = "Your_image.png")
     fenetre = Tk()
     fenetre.geometry("300x350")
-    #fenetre.overrideredirect(True)
     fenetre.title("PNJMaker")
-
-    label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10), image= bg)
+    label= Label(fenetre, text= linearisation(listePnj[index]), font= ('Aerial', 10))
     label.pack()
-
-    #conteneur = Canvas(fenetre, bg='white', height=500, width=300)
-    #conteneur.pack()
-
     cadre = Frame(fenetre)
     cadre.pack(padx=5, pady=5,side=BOTTOM)
-
     # changer de pnj
     btnGauche = Button(cadre, text='<', bg='black', fg='white', command=lambda indent=-1 : actualise(indent))
     btnGauche.pack(padx=5, pady=5, side=LEFT)
