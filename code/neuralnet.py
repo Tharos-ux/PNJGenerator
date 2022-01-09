@@ -1,3 +1,5 @@
+# https://towardsdatascience.com/deep-learning-with-python-neural-networks-complete-tutorial-6b53c0b06af0
+
 from tensorflow.keras import models, layers, utils, backend as tfk
 import matplotlib.pyplot as plt
 import tensorflow as tf
