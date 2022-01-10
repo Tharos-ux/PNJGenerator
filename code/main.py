@@ -80,7 +80,7 @@ class NeuralPrep:
         nom = nom.lower()
         liste = []
         for l in nom:
-            liste.append(cv(l))
+            liste.append(NeuralPrep.cv(l))
         return liste
 
     def complet(type,texte):
@@ -120,14 +120,14 @@ class Tools:
     def gen_nom(sexe,ld,composed=True,neuralInput=False):
         "Sexe biologique doit être au format Masculin ou Féminin"
         opener,closer,mid1,mid2,a = random.choice(ld.dict["Opener"]),random.choice(ld.dict["Closer"+sexe[0]]),random.choice(ld.dict["Middle"]),random.choice(ld.dict["Middle"]),random.randrange(3)
-        if(composed): # renvoie un nom
+        if(neuralInput): # renvoie une liste
+            if(a==0): return (NeuralPrep.convert_to_ints(opener+mid1+mid2+closer),opener+mid1+mid2+closer)
+            elif(a==1): return (NeuralPrep.convert_to_ints(opener+mid1+closer),opener+mid1+closer)
+            else: return (NeuralPrep.convert_to_ints(opener+closer),opener+closer)
+        elif(composed): # renvoie un nom
             if(a==0): return opener+mid1+mid2+closer
             elif(a==1): return opener+mid1+closer
             else: return opener+closer
-        elif(neuralInput): # renvoie une liste
-            if(a==0): return (opener,mid1,mid2,closer)
-            elif(a==1): return (opener,mid1,closer)
-            else: return (opener,closer)
         else:
             if(a==0): return f"{opener},{mid1},{mid2},{closer},{opener}{mid1}{mid2}{closer},{sexe[0]}"
             elif(a==1): return f"{opener},{mid1},,{closer},{opener}{mid1}{closer},{sexe[0]}"
