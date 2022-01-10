@@ -44,6 +44,55 @@ def conv(liste):
     else:
         return Regexpr.Element(liste[0],liste[1],liste[2])
 
+class NeuralPrep:
+    "Contient les méthodes permettant de se mettre en lien avec le réseau de neurones"
+    def cv(arg):
+        # dictionnaire de fréquence
+        return {
+            'a':25,
+            'b':11,
+            'c':15,
+            'd':16,
+            'e':26,
+            'f':8,
+            'g':12,
+            'h':9,
+            'i':24,
+            'j':4,
+            'k':3,
+            'l':18,
+            'm':14,
+            'n':22,
+            'o':19,
+            'p':13,
+            'q':7,
+            'r':21,
+            's':23,
+            't':20,
+            'u':17,
+            'v':10,
+            'w':2,
+            'x':5,
+            'y':6,
+            'z':1}[arg]
+
+    def convert_to_ints(nom):
+        nom = nom.lower()
+        liste = []
+        for l in nom:
+            liste.append(cv(l))
+        return liste
+
+    def complet(type,texte):
+        match type:
+            case "closer":
+                return 4 - len(texte)
+            case _:
+                return 2
+
+    def completion():
+        pass
+
 class Tools:
     "Contient des méthodes de calcul et de génération"
 
@@ -68,13 +117,17 @@ class Tools:
             i+=1 # retourne la première occurence d'un nombre inférieur
         return keys[-1] # ou la dernière occurence de la liste sinon
 
-    def gen_nom(sexe,ld,composed=True):
+    def gen_nom(sexe,ld,composed=True,neuralInput=False):
         "Sexe biologique doit être au format Masculin ou Féminin"
         opener,closer,mid1,mid2,a = random.choice(ld.dict["Opener"]),random.choice(ld.dict["Closer"+sexe[0]]),random.choice(ld.dict["Middle"]),random.choice(ld.dict["Middle"]),random.randrange(3)
         if(composed): # renvoie un nom
             if(a==0): return opener+mid1+mid2+closer
             elif(a==1): return opener+mid1+closer
             else: return opener+closer
+        elif(neuralInput): # renvoie une liste
+            if(a==0): return (opener,mid1,mid2,closer)
+            elif(a==1): return (opener,mid1,closer)
+            else: return (opener,closer)
         else:
             if(a==0): return f"{opener},{mid1},{mid2},{closer},{opener}{mid1}{mid2}{closer},{sexe[0]}"
             elif(a==1): return f"{opener},{mid1},,{closer},{opener}{mid1}{closer},{sexe[0]}"

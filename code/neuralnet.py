@@ -6,6 +6,7 @@ import tensorflow as tf
 import plot_ann as vz
 import explainer_shap as es
 
+
 """
 model_naive = models.Sequential(name="GeNoms", layers=[
     layers.Dense(             # layer totalement connecté

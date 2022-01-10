@@ -40,6 +40,14 @@ def affichage(ld):
         global index
         with open("sauvegardes.txt","a") as writer:
             writer.write(linearisationSave(listePnj[index]))
+    
+    def reroll(charac,pnj,ld):
+        # on crée un nouveau template de PnJ de base, temporaire
+        container = main.nouveauPnj(ld)
+        # on récupère la caractéristique d'intérêt
+        pnj.carac
+        # on actualise l'affichage
+        label["text"] = linearisation(pnj)
 
     def actualise(indent):
         "Fonction qui met à jour les textes & boutons"
@@ -54,6 +62,15 @@ def affichage(ld):
         else: btnGauche["state"] = "normal"
         label["text"] = linearisation(listePnj[index])
 
-    
+    class Containt:
+        "Contient les méthodes permettant de créer un objet d'interface"
+
+        def __init__(self,entree,contenu):
+            "Initialise un nouvel objet PnJ"
+            self.entreeDico = entree
+            self.texte = contenu
+            # méthodes graphiques
+            self.label = Label(fenetre, contenu, font= ('Aerial', 10))
+            self.button = Button(cadre, text='Reload',bg='black', fg='white', command=fenetre.destroy)
 
     fenetre.mainloop()
