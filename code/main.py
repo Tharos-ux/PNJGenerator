@@ -212,6 +212,14 @@ class Pnj:
         self.age = Tools.loi_normale(28,13)
         self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
 
+    # surcharge de constructeur à mettre en place
+    def __init__(self,ld):
+        "Initialise un nouvel objet PnJ"
+        self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
+        self.name = Tools.gen_nom(self.sexe,ld)
+        self.age = Tools.loi_normale(28,13)
+        self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
+
     def __str__(self):
         "Renvoie une description du PnJ"
         return f"{self.name} est âgé de {self.age} ans."
