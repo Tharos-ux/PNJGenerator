@@ -19,7 +19,7 @@ model_naive = models.Sequential(name="GeNoms", layers=[
 model_naive.summary()
 """
 
-n_features = 4
+n_features = 10
 # DeepNN
 ### layer input
 inputs = layers.Input(name="input", shape=(n_features,))
