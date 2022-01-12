@@ -2,6 +2,22 @@ from tkinter import *
 from tkinter import ttk
 import main
 
+def affichage(listedico):
+    global ld
+    ld = listedico
+    global listePnj
+    listePnj = [main.nouveauPnj(ld)] # le Pnj créé initialement est mis dans la liste
+    global index
+    index = 0
+    fenetre = Tk()
+    fenetre.geometry("500x850")
+    fenetre.title("PNJMaker")
+    pan = None # baba is nothing
+    builder(fenetre,listePnj[index].carac,pan)
+
+    # boucle d'exécution
+    fenetre.mainloop()
+
 def linearisation(monPnj):
     string=""
     for key in monPnj.carac:
@@ -89,47 +105,18 @@ def builder(fenetre,dico,pan):
 
     def sauvegarde(a):
         global index
-        with open("sauvegardes.txt","a") as writer:
+        with open("data/sauvegardes.txt","a") as writer:
             writer.write(linearisationSave(listePnj[index]))
     
-    def reroll(charac,pnj,ld):
+    def reroll(charac):
+        global index
+        global listePnj
+        global ld
+
+        pnj = listePnj[index]
         # on crée un nouveau template de PnJ de base, temporaire
         container = main.nouveauPnj(ld)
         # on récupère la caractéristique d'intérêt
         pnj.carac
         # on actualise l'affichage
-        label["text"] = linearisation(pnj)
-
-def affichage(listedico):
-    global ld
-    ld = listedico
-    global listePnj
-    listePnj = [main.nouveauPnj(ld)] # le Pnj créé initialement est mis dans la liste
-    global index
-    index = 0
-    fenetre = Tk()
-    fenetre.geometry("500x850")
-    fenetre.title("PNJMaker")
-    pan = None # baba is nothing
-    builder(fenetre,listePnj[index].carac,pan)
-
-    # boucle d'exécution
-    fenetre.mainloop()
-
-"""
-def actualise(indent):
-    "Fonction qui met à jour les textes & boutons"
-    global index
-    global listePnj
-    index+=indent
-    if(index>=len(listePnj)):
-        listePnj.append(main.nouveauPnj(ld))
-        index = len(listePnj)-1
-    elif(index<0):
-        index = 0
-    if(index==0): btnGauche["state"] = "disabled"
-    else: btnGauche["state"] = "normal"
-    builder(fenetre,listePnj[index].carac,pan)
-        #label["text"] = linearisation(listePnj[index])
-"""
     

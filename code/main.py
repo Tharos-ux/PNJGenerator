@@ -7,7 +7,7 @@ import numpy
 
 def main():
     "Procédure principale"
-    ld = Loader("data.ini")
+    ld = Loader("data/data.ini")
 
     # permet un affichage non-graphique
     if("-ng" in sys.argv):
