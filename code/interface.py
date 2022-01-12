@@ -53,6 +53,7 @@ class Conteneur:
             self.varl = Label(self.panl, text=str(self.texte).replace('_',' '), font=('Aerial', 10))
             self.panl.add(self.varl)
             self.button = Button(self.panl, text="Refresh",bg='black', fg='white', command=fenetre.destroy, state=DISABLED)
+            self.button.config(height = 1, width = 20)
             self.panl.add(self.button)
 
 def builder(fenetre,dico,pan):
