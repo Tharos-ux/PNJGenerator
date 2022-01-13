@@ -1,0 +1,14 @@
+---------------------
+Nom = Gaish
+Age = 9
+Sexe biologique = Masculin
+Ethnie = Alastraar
+Yeux = amande
+Couleur des yeux = bleus
+Couleur de peau = bleu
+Couleur des cheveux = violet
+Coupe de cheveux = demi-queue
+Situation familiale = famille
+Regard = distrait
+Identité de genre = cisgenre
+Orientation sexuelle = hétérosexuel
