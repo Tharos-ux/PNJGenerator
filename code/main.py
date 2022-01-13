@@ -2,7 +2,7 @@
 
 import random
 import sys
-import interface
+import interfaceAlt
 import numpy
 
 def main():
@@ -18,7 +18,7 @@ def main():
         for e in lst:
             print(f"{e[0]} = {e[1]}")
     else:
-        interface.affichage(ld)
+        interfaceAlt.affichage(ld)
         
 def nouveauPnj(ld):
     return Pnj(ld)
