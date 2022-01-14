@@ -2,7 +2,7 @@
 
 Ce projet vise à offrir aux rôlistes un script simple, flexible et paramétrable, pour créer des ensembles de caractéristiques de personnages-non-joueurs à la volée durant une session de jeu de rôle.
 
-![Interface](https://media.discordapp.net/attachments/727238079542329435/911257474034728960/unknown.png)
+![Interface](https://media.discordapp.net/attachments/878301351753429072/931309209532907550/unknown.png)
 
 L'interface graphique sera sujette à changement, mais le coeur de fonctionnalités restera sensiblement le même, sauf si des requêtes pertinentes sont soulevées.
 
