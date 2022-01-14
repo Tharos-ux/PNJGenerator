@@ -20,8 +20,12 @@ def main():
     else:
         interfaceAlt.affichage(ld)
         
-def nouveauPnj(ld):
-    return Pnj(ld)
+def nouveauPnj(ld,pnj=None,charac=None):
+    match [pnj,charac]:
+        case [None,None]:
+            return Pnj(ld)
+        case [pj,char]:
+            return 
 
 def conversion(string):
     # quand on arrive ici, on considère que la chaine est chainée
@@ -211,14 +215,22 @@ class Pnj:
         self.name = Tools.gen_nom(self.sexe,ld)
         self.age = Tools.loi_normale(28,13)
         self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
+        self.desc = ""
 
-    # surcharge de constructeur à mettre en place
-    def __init__(self,ld):
+    def __str__(self):
+        "Renvoie une description du PnJ"
+        return f"{self.name} est âgé de {self.age} ans."
+
+class RerollPnj:
+    "Contient les méthodes permettant de créer un objet PnJ"
+
+    def __init__(self,ld,pnj,charac):
         "Initialise un nouvel objet PnJ"
         self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
         self.name = Tools.gen_nom(self.sexe,ld)
         self.age = Tools.loi_normale(28,13)
         self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
+        self.desc = ""
 
     def __str__(self):
         "Renvoie une description du PnJ"

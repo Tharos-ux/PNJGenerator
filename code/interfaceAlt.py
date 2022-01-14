@@ -1,32 +1,21 @@
 from tkinter import *
-from tkinter import ttk
-import tkinter
 import main
+from functools import partial
 
 def linearisation(monPnj):
     string=""
     for key in monPnj.carac:
         string = string + f"{key.replace('_',' ')} = {monPnj.carac[key]}\n"
-    return string
+    return f"{string}\n{monPnj.desc}"
 
 def linearisationSave(monPnj):
     string="---------------------\n"
     for key in monPnj.carac:
         string = string + f"{key.replace('_',' ')} = {monPnj.carac[key]}\n"
-    return string
+    return f"{string}\n{monPnj.desc}"
 
 
 
-class Conteneur:
-    # définit un conteneur d'info avec son bouton refresh
-    def __init__(self,entree,contenu,fenetre):
-            "Initialise un nouvel objet PnJ"
-            global imgbutton
-            self.entreeDico = entree
-            self.texte = contenu
-            self.labl = Label(fenetre,fg="#FFFFFF",bg="#36393f", text=str(self.entreeDico).replace('_',' '), font=('Aerial', 10))
-            self.varl = Label(fenetre,fg="#FFFFFF",bg="#36393f", text=str(self.texte).replace('_',' '), font=('Aerial', 12, 'bold'))
-            self.button = Button(fenetre, bd=0, relief=FLAT, text="Refresh",bg='#36393f', fg='white', image = imgbutton, command=fenetre.destroy)
 
 def builder(fenetre,dico,pan,master):
     """ Sert à construire l'interface interne de la fenêtre.
@@ -40,6 +29,7 @@ def builder(fenetre,dico,pan,master):
     WGRID = 150
     COLOR="#36393f"
     global index
+    global listePnj
     
     # Layout
     fenetre.columnconfigure(0, weight=1, minsize=WGRID)
@@ -51,6 +41,15 @@ def builder(fenetre,dico,pan,master):
     for widgets in fenetre.winfo_children():
         widgets.destroy()
 
+    def reroll(charac,pnj,ld,fenetre,dico,pan,master):
+        listePnj[index].desc = notes.get("1.0",END)
+        # on crée un nouveau template de PnJ de base, temporaire
+        new_pnj = main.nouveauPnj(ld)
+        # on récupère la caractéristique d'intérêt
+        pnj.carac[charac] = new_pnj.carac[charac]
+        # on actualise l'affichage
+        builder(fenetre,dico,pan,master)
+
     # Boutons de menu
     btnGauche = Button(fenetre, bd=0, relief=FLAT, text='<', bg='#2f3136', fg='white', command=lambda indent=-1 : actualise(indent))
     btnGauche.grid(row=0,column=0, padx=PAD, pady=PAD*10)
@@ -61,6 +60,19 @@ def builder(fenetre,dico,pan,master):
     btnDroite = Button(fenetre, bd=0, relief=FLAT, text='>', bg='#2f3136', fg='white', command=lambda indent=1 : actualise(indent))
     btnDroite.grid(row=0,column=3, padx=PAD, pady=PAD*10)
     
+    
+    class Conteneur:
+    # définit un conteneur d'info avec son bouton refresh
+        def __init__(self,entree,contenu,fenetre):
+                "Initialise un nouvel objet PnJ"
+                global imgbutton
+                self.entreeDico = entree
+                self.texte = contenu
+                self.labl = Label(fenetre,fg="#FFFFFF",bg="#36393f", text=str(self.entreeDico).replace('_',' '), font=('Aerial', 10))
+                self.varl = Label(fenetre,fg="#FFFFFF",bg="#36393f", text=str(self.texte).replace('_',' '), font=('Aerial', 12, 'bold'))
+                self.action = partial(reroll, self.entreeDico, listePnj[index], ld, fenetre, dico, pan, master)
+                self.button = Button(fenetre, bd=0, relief=FLAT, text="Refresh",bg='#36393f', fg='white', image = imgbutton, command=self.action)
+
     count = 1
     # Zone de description
     for k,v in dico.items():
@@ -78,12 +90,15 @@ def builder(fenetre,dico,pan,master):
     
     # Zone de notes
     notes = Text(fenetre, bg = "#40444b", fg = "white", relief='flat', font=('Aerial', 10))
-    notes.grid(row=count+1, columnspan=4, padx=PAD*10, pady=PAD*10,sticky=tkinter.S)
+    notes.delete("1.0","end")
+    notes.insert("1.0", listePnj[index].desc)
+    notes.grid(row=count+1, columnspan=4, padx=PAD*10, pady=PAD*10)
 
     def actualise(indent):
         "Fonction qui met à jour les textes & boutons"
         global index
         global listePnj
+        listePnj[index].desc = notes.get("1.0",END)
         index+=indent
         if(index>=len(listePnj)):
             listePnj.append(main.nouveauPnj(ld))
@@ -94,17 +109,9 @@ def builder(fenetre,dico,pan,master):
 
     def sauvegarde(a):
         global index
+        listePnj[index].desc = notes.get("1.0",END)
         with open("sauvegardes.txt","a") as writer:
             writer.write(linearisationSave(listePnj[index]))
-    
-    def reroll(charac,pnj,ld):
-        # TODO
-        # on crée un nouveau template de PnJ de base, temporaire
-        container = main.nouveauPnj(ld)
-        # on récupère la caractéristique d'intérêt
-        pnj.carac
-        # on actualise l'affichage
-        label["text"] = linearisation(pnj)
 
 def affichage(listedico):
 

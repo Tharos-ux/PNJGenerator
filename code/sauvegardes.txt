@@ -1,14 +1,22 @@
 ---------------------
-Nom = Gaish
-Age = 9
+Nom = Auour
+Age = 19
 Sexe biologique = Masculin
 Ethnie = Alastraar
 Yeux = amande
-Couleur des yeux = bleus
+Couleur des yeux = gris
 Couleur de peau = bleu
-Couleur des cheveux = violet
+Couleur des cheveux = bleu
 Coupe de cheveux = demi-queue
 Situation familiale = famille
-Regard = distrait
+Regard = préoccupé
 Identité de genre = cisgenre
-Orientation sexuelle = hétérosexuel
+Orientation sexuelle = bisexuel
+
+description
+
+
+
+
+
+
