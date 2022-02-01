@@ -190,9 +190,12 @@ class Pnj:
                     case 'Age':
                         self.age = current.carac['Age'] = Tools.loi_normale(28,13)
                     case car:
+                        # TODO chaining des expressions par arbres
                         blacklist = [key for key in current.carac if key != car]
-                        print(blacklist)
-                        newchars = Tools.fill_regexpr(ld,current.carac,blacklist)
+                        nextchar = current.carac[car]
+                        while nextchar==current.carac[car]:
+                            newchars = Tools.fill_regexpr(ld,current.carac.copy(),blacklist)
+                            nextchar = newchars[car]
                         current.carac[car] = newchars[car]
                 self.carac = current.carac
                 self.desc = current.desc
