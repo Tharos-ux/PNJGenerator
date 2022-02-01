@@ -21,11 +21,8 @@ def main():
         interfaceAlt.affichage(ld)
         
 def nouveauPnj(ld,pnj=None,charac=None):
-    match [pnj,charac]:
-        case [None,None]:
-            return Pnj(ld)
-        case [pj,char]:
-            return 
+    return Pnj(ld,current=pnj,change=charac)
+
 
 def conversion(string):
     # quand on arrive ici, on considère que la chaine est chainée
@@ -137,10 +134,8 @@ class Tools:
             elif(a==1): return f"{opener},{mid1},,{closer},{opener}{mid1}{closer},{sexe[0]}"
             else: return f"{opener},,,{closer},{opener}{closer},{sexe[0]}"
 
-    def fill_regexpr(ld,sexe,nom,age):
+    def fill_regexpr(ld,dico,blacklist=["Opener","CloserM","CloserF","Middle"]):
         "Effectue une attribution des caractéristiques annexes"
-        blacklist = ["Opener","CloserM","CloserF","Middle"]
-        dico = {'Nom' : nom,'Age' : age, 'Sexe_biologique' : sexe}
         for key in ld.dict:
             if(key not in blacklist):
                 if('%' in key):
@@ -169,68 +164,38 @@ class Tools:
                     dico[key] = random.choice(ld.dict[key])
         return dico
 
-    def fill(ld,sexe,nom,age):
-        "Effectue une attribution des caractéristiques annexes"
-        blacklist = ["Opener","CloserM","CloserF","Middle"]
-        dico = {'Nom' : nom,'Age' : age, 'Sexe_biologique' : sexe}
-        for key in ld.dict:
-            if(key not in blacklist):
-                if(key[0]=='%'):
-                    if(key[1]=='|'):
-                        probas,valeurs = [],[]
-                        for e in ld.dict[key]:
-                            probas.append(int(e.split('%')[0]))
-                            valeurs.append(e.split('%')[1])
-                        # caractère chainé en fonction d'une autre caractéristique + proba
-                        # print(f"PROBAS {probas} > VALEURS : {valeurs}")
-                        test,cle = key.split('~')[0],key.split('~')[1]
-                        filtre,val,comparateur = test.split(' ')[0][2:],test.split(' ')[2],test.split(' ')[1]
-                        if(filtre in dico.keys()):
-                            if(comparateur=="==" and dico[filtre]==val[1:-1]) or (comparateur=="!=" and dico[filtre]!=val[1:-1]) or (comparateur==">=" and int(dico[filtre])>=int(val)) or (comparateur=="<=" and int(dico[filtre])<=int(val)): dico[cle] = Tools.weighted_choice(valeurs,probas)
-                    else:
-                        # on doit sélectionner selon une probabilité simple
-                        probas,valeurs = [],[]
-                        for e in ld.dict[key]:
-                            probas.append(int(e.split('%')[0]))
-                            valeurs.append(e.split('%')[1])
-                        dico[key[1:]] = Tools.weighted_choice(valeurs,probas)
-                elif(key[0]=='|'):
-                    # caractère chainé en fonction d'une autre caractéristique
-                    test,cle = key.split('~')[0],key.split('~')[1]
-                    filtre,val,comparateur = test.split(' ')[0][1:],test.split(' ')[2],test.split(' ')[1]
-                    if(filtre in dico.keys()):
-                        # print(f"On compare {str(dico[filtre])} à {val[1:-1]} selon le comparateur {comparateur}. Sont-ils égaux ? {str(dico[filtre])==str(val[1:-1])}")
-                        if(comparateur=="==" and dico[filtre]==val[1:-1]) or (comparateur=="!=" and dico[filtre]!=val[1:-1]) or (comparateur==">=" and int(dico[filtre])>=int(val)) or (comparateur=="<=" and int(dico[filtre])<=int(val)): dico[cle] = random.choice(ld.dict[key])
-                else:
-                    # sélection aléatoire basique
-                    dico[key] = random.choice(ld.dict[key])
-        return dico
-
 class Pnj:
     "Contient les méthodes permettant de créer un objet PnJ"
 
-    def __init__(self,ld):
+    def __init__(self,ld,current=None,change=None):
         "Initialise un nouvel objet PnJ"
-        self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
-        self.name = Tools.gen_nom(self.sexe,ld)
-        self.age = Tools.loi_normale(28,13)
-        self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
-        self.desc = ""
-
-    def __str__(self):
-        "Renvoie une description du PnJ"
-        return f"{self.name} est âgé de {self.age} ans."
-
-class RerollPnj:
-    "Contient les méthodes permettant de créer un objet PnJ"
-
-    def __init__(self,ld,pnj,charac):
-        "Initialise un nouvel objet PnJ"
-        self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
-        self.name = Tools.gen_nom(self.sexe,ld)
-        self.age = Tools.loi_normale(28,13)
-        self.carac = Tools.fill_regexpr(ld,self.sexe,self.name,self.age)
-        self.desc = ""
+        match current:
+            case None:
+                self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
+                self.name = Tools.gen_nom(self.sexe,ld)
+                self.age = Tools.loi_normale(28,13)
+                self.carac = Tools.fill_regexpr(ld,{'Nom' : self.name,'Age' : self.age, 'Sexe_biologique' : self.sexe})
+                self.desc = ""
+            case _:
+                self.sexe = current.sexe
+                self.name = current.name
+                self.age = current.age
+                match change:
+                    case 'Sexe_biologique':
+                        # on intervertit l'état
+                        self.sexe = current.carac['Sexe_biologique'] = "Féminin" if(current.carac['Sexe_biologique']=="Masculin") else "Masculin"
+                    case 'Nom':
+                        # on reroll un nom
+                        self.name = current.carac['Nom'] = Tools.gen_nom(self.sexe,ld,composed=True)
+                    case 'Age':
+                        self.age = current.carac['Age'] = Tools.loi_normale(28,13)
+                    case car:
+                        blacklist = [key for key in current.carac if key != car]
+                        print(blacklist)
+                        newchars = Tools.fill_regexpr(ld,current.carac,blacklist)
+                        current.carac[car] = newchars[car]
+                self.carac = current.carac
+                self.desc = current.desc
 
     def __str__(self):
         "Renvoie une description du PnJ"
@@ -249,7 +214,7 @@ class Loader:
         fichier - str, adresse d'un fichier à lire
         """
         self.dict = {}
-        with open(fichier,"r") as reader:
+        with open(fichier,"r", encoding="utf-8") as reader:
             for l in reader:
                 if(l[0]!='#'):
                     l = l[:-1]

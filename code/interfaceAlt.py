@@ -2,21 +2,14 @@ from tkinter import *
 import main
 from functools import partial
 from tkinter.filedialog import asksaveasfile
+import platform
 
-def linearisation(monPnj):
+def linearisationSave(monPnj):
+    "Renvoie les éléments d'un PnJ sous forme de texte afin de l'enregistrer"
     string=""
     for key in monPnj.carac:
         string = string + f"{key.replace('_',' ')} = {monPnj.carac[key]}\n"
     return f"{string}\n{monPnj.desc}"
-
-def linearisationSave(monPnj):
-    string="---------------------\n"
-    for key in monPnj.carac:
-        string = string + f"{key.replace('_',' ')} = {monPnj.carac[key]}\n"
-    return f"{string}\n{monPnj.desc}"
-
-
-
 
 def builder(fenetre,dico,pan,master):
     """ Sert à construire l'interface interne de la fenêtre.
@@ -45,7 +38,7 @@ def builder(fenetre,dico,pan,master):
     def reroll(charac,pnj,ld,fenetre,dico,pan,master):
         listePnj[index].desc = notes.get("1.0",END)
         # on crée un nouveau template de PnJ de base, temporaire
-        new_pnj = main.nouveauPnj(ld)
+        new_pnj = main.nouveauPnj(ld,pnj,charac)
         # on récupère la caractéristique d'intérêt
         pnj.carac[charac] = new_pnj.carac[charac]
         # on actualise l'affichage
@@ -63,9 +56,10 @@ def builder(fenetre,dico,pan,master):
     
     
     class Conteneur:
-    # définit un conteneur d'info avec son bouton refresh
+        "définit un conteneur d'info avec son bouton refresh"
+
         def __init__(self,entree,contenu,fenetre):
-                "Initialise un nouvel objet PnJ"
+                "Initialise un nouveau conteneur"
                 global imgbutton
                 self.entreeDico = entree
                 self.texte = contenu
@@ -96,7 +90,7 @@ def builder(fenetre,dico,pan,master):
     notes.grid(row=count+1, columnspan=4, padx=PAD*10, pady=PAD*10)
 
     def actualise(indent):
-        "Fonction qui met à jour les textes & boutons"
+        "Fonction qui met à jour les textes & boutons au changement de PnJ"
         global index
         global listePnj
         listePnj[index].desc = notes.get("1.0",END)
@@ -108,22 +102,14 @@ def builder(fenetre,dico,pan,master):
             index = 0
         builder(fenetre,listePnj[index].carac,pan,master)
 
-    def sauvegarde(a):
-        "unused"
-        global index
-        listePnj[index].desc = notes.get("1.0",END)
-        with open("sauvegardes.txt","a") as writer:
-            writer.write(linearisationSave(listePnj[index]))
-
     def filesave(a):
+        "Commande du bouton sauvegarder"
         global index
         listePnj[index].desc = notes.get("1.0",END)
         files = [('Document texte', '*.txt')]
         fichier = asksaveasfile(filetypes = files, defaultextension = files)
         fichier.write(linearisationSave(listePnj[index]))
         fichier.close()
-        # TODO : ramener la fenêtre à l'arrière plan
-
 
 def affichage(listedico):
 
@@ -140,40 +126,50 @@ def affichage(listedico):
     # Déclaration de la fenêtre
     fenetre = Tk()
     
-    # Nouvelle barre de dialogue
+    # Déplacements de la barre de dialogue
     def move_window(event):
         fenetre.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
 
-    # fenetre.overrideredirect(True) # turns off title bar, geometry
-
-    fenetre.geometry("450x600+200+200")
+    fenetre.geometry("450x900+75+75")
     fenetre['background']="#2f3136"
     # make a frame for the title bar
     imgbutton = PhotoImage(file='button.png')
     img = PhotoImage(file='title.png')
+
+    # barre de titre
     title_bar = Frame(fenetre, bg='#2f3136', relief='flat', bd=0)
     title_text = Label(title_bar,fg="#FFFFFF",bg="#2f3136", text="PNJMaker", image=img, font=('Aerial', 12, 'bold'))
-    # fenetre.wm_attributes('-fullscreen', 'True')
-    fenetre.attributes('-type', 'dock')
 
-    # put a close button on the title bar
-    # close_button = Button(title_bar, text='X', command=fenetre.destroy)
+    match platform.system():
+        case 'Linux':
+            fenetre.attributes('-type', 'dock')
+        case 'Windows' | 'Darwin' :
+            fenetre.overrideredirect(True)
+            title_bar.bind('<B1-Motion>', move_window)
+        case _:
+            # fenetre.wm_attributes('-fullscreen', 'True')
+            pass # on ne sait pas quel système c'est, on utilise l'affichage par défaut
 
-    # a canvas for the main area of the window
     window = Canvas(fenetre, bg=COLOR, bd=0, width=450, height=550, highlightthickness=0, relief='ridge')
 
-    # pack the widgets
     title_bar.pack(expand=1, fill=X)
     title_text.pack(side=TOP)
-    window.pack(fill='both')
 
-    # bind title bar motion to the move window function
-    title_bar.bind('<B1-Motion>', move_window)
+    window.pack(fill='both')
 
     # Construction du layout
     pan = None # baba is nothing
     builder(window,listePnj[index].carac,pan,fenetre)
 
+    """
+    #barre d'état
+    status_bar = Frame(fenetre, bg='#2f3136', relief='flat', bd=0)
+    status_text = Label(status_bar,fg="#FFFFFF",bg="#2f3136", text="Texte d'état", font=('Aerial', 12, 'bold'))
+    status_bar.pack(expand=1, fill='none')
+    status_text.pack(side=BOTTOM)
+    """
+
+    # permet de renvoyer la fenêtre à l'arrière en cas de perte de focus
     fenetre.lift()
     fenetre.attributes('-topmost',True)
     fenetre.after_idle(fenetre.attributes,'-topmost',False)
