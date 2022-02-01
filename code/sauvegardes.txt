@@ -20,3 +20,44 @@ description
 
 
 
+---------------------
+Nom = Cyrina
+Age = 40
+Sexe biologique = Féminin
+Ethnie = Alastraar
+Yeux = amande
+Couleur des yeux = gris
+Couleur de peau = bleu
+Couleur des cheveux = bleu nacré
+Coupe de cheveux = tombants
+Rides = légères
+Métier = drapier
+Regard = soucieux
+Identité de genre = transgenre
+Orientation sexuelle = bisexuelle
+Entend les murmures = non
+
+
+---------------------
+Nom = Cyrina
+Age = 40
+Sexe biologique = Féminin
+Ethnie = Aiui
+Yeux = amande
+Couleur des yeux = gris
+Couleur de peau = bleu
+Couleur des cheveux = bleu nacré
+Coupe de cheveux = tombants
+Rides = absentes
+Métier = drapier
+Regard = soucieux
+Identité de genre = transgenre
+Orientation sexuelle = bisexuelle
+Entend les murmures = non
+
+
+
+
+
+
+

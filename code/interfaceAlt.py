@@ -1,6 +1,7 @@
 from tkinter import *
 import main
 from functools import partial
+from tkinter.filedialog import asksaveasfile
 
 def linearisation(monPnj):
     string=""
@@ -55,7 +56,7 @@ def builder(fenetre,dico,pan,master):
     btnGauche.grid(row=0,column=0, padx=PAD, pady=PAD*10)
     btnQuit = Button(fenetre, bd=0, relief=FLAT, text='Quitter',bg='#2f3136', fg='white', command=master.destroy)
     btnQuit.grid(row=0,column=1, padx=PAD, pady=PAD*10)
-    btnSave = Button(fenetre, bd=0, relief=FLAT, text='Sauver', bg='#2f3136', fg='white', command=lambda indent=0 : sauvegarde(indent))
+    btnSave = Button(fenetre, bd=0, relief=FLAT, text='Sauver', bg='#2f3136', fg='white', command=lambda indent=0 : filesave(indent))
     btnSave.grid(row=0,column=2, padx=PAD, pady=PAD*10)
     btnDroite = Button(fenetre, bd=0, relief=FLAT, text='>', bg='#2f3136', fg='white', command=lambda indent=1 : actualise(indent))
     btnDroite.grid(row=0,column=3, padx=PAD, pady=PAD*10)
@@ -112,6 +113,17 @@ def builder(fenetre,dico,pan,master):
         listePnj[index].desc = notes.get("1.0",END)
         with open("sauvegardes.txt","a") as writer:
             writer.write(linearisationSave(listePnj[index]))
+
+    def filesave(a):
+        global index
+        listePnj[index].desc = notes.get("1.0",END)
+        files = [('All Files', '*.*'), 
+             ('Document texte', '*.txt')]
+        fichier = asksaveasfile(filetypes = files, defaultextension = files)
+        fichier.write(linearisationSave(listePnj[index]))
+        fichier.close()
+        # TODO : ramener la fenêtre à l'arrière plan
+
 
 def affichage(listedico):
 
