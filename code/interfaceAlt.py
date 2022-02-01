@@ -109,6 +109,7 @@ def builder(fenetre,dico,pan,master):
         builder(fenetre,listePnj[index].carac,pan,master)
 
     def sauvegarde(a):
+        "unused"
         global index
         listePnj[index].desc = notes.get("1.0",END)
         with open("sauvegardes.txt","a") as writer:
@@ -117,8 +118,7 @@ def builder(fenetre,dico,pan,master):
     def filesave(a):
         global index
         listePnj[index].desc = notes.get("1.0",END)
-        files = [('All Files', '*.*'), 
-             ('Document texte', '*.txt')]
+        files = [('Document texte', '*.txt')]
         fichier = asksaveasfile(filetypes = files, defaultextension = files)
         fichier.write(linearisationSave(listePnj[index]))
         fichier.close()
@@ -144,7 +144,8 @@ def affichage(listedico):
     def move_window(event):
         fenetre.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
 
-    fenetre.overrideredirect(True) # turns off title bar, geometry
+    # fenetre.overrideredirect(True) # turns off title bar, geometry
+
     fenetre.geometry("450x600+200+200")
     fenetre['background']="#2f3136"
     # make a frame for the title bar
@@ -152,6 +153,8 @@ def affichage(listedico):
     img = PhotoImage(file='title.png')
     title_bar = Frame(fenetre, bg='#2f3136', relief='flat', bd=0)
     title_text = Label(title_bar,fg="#FFFFFF",bg="#2f3136", text="PNJMaker", image=img, font=('Aerial', 12, 'bold'))
+    # fenetre.wm_attributes('-fullscreen', 'True')
+    fenetre.attributes('-type', 'dock')
 
     # put a close button on the title bar
     # close_button = Button(title_bar, text='X', command=fenetre.destroy)
@@ -170,6 +173,10 @@ def affichage(listedico):
     # Construction du layout
     pan = None # baba is nothing
     builder(window,listePnj[index].carac,pan,fenetre)
+
+    fenetre.lift()
+    fenetre.attributes('-topmost',True)
+    fenetre.after_idle(fenetre.attributes,'-topmost',False)
 
     # Boucle d'exécution
     fenetre.mainloop()
