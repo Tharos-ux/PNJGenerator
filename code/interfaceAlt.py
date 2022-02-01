@@ -38,9 +38,8 @@ def builder(fenetre,dico,pan,master):
     def reroll(charac,pnj,ld,fenetre,dico,pan,master):
         listePnj[index].desc = notes.get("1.0",END)
         # on crée un nouveau template de PnJ de base, temporaire
-        new_pnj = main.nouveauPnj(ld,pnj,charac)
+        listePnj[index] = main.nouveauPnj(ld,pnj,charac)
         # on récupère la caractéristique d'intérêt
-        pnj.carac[charac] = new_pnj.carac[charac]
         # on actualise l'affichage
         builder(fenetre,dico,pan,master)
 
@@ -71,11 +70,12 @@ def builder(fenetre,dico,pan,master):
     count = 1
     # Zone de description
     for k,v in dico.items():
-        pan = Conteneur(k,v,fenetre)
-        pan.labl.grid(row=count,column=0, padx=PAD, pady=PAD)
-        pan.varl.grid(row=count,column=1,columnspan=2, padx=PAD, pady=PAD)
-        pan.button.grid(row=count,column=3, padx=PAD, pady=PAD)
-        count+=1
+        if (k not in ["Opener","CloserM","CloserF","Middle"]) and (v != None):
+            pan = Conteneur(k,v,fenetre)
+            pan.labl.grid(row=count,column=0, padx=PAD, pady=PAD)
+            pan.varl.grid(row=count,column=1,columnspan=2, padx=PAD, pady=PAD)
+            pan.button.grid(row=count,column=3, padx=PAD, pady=PAD)
+            count+=1
 
     # Etat des boutons du menu
     if(index<=0):

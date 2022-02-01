@@ -136,6 +136,7 @@ class Tools:
 
     def fill_regexpr(ld,dico,blacklist=["Opener","CloserM","CloserF","Middle"]):
         "Effectue une attribution des caractéristiques annexes"
+        constraints = dict()
         for key in ld.dict:
             if(key not in blacklist):
                 if('%' in key):
@@ -147,7 +148,9 @@ class Tools:
                         # caractère chainé en fonction d'une autre caractéristique + proba
                         # print(f"PROBAS {probas} > VALEURS : {valeurs}")
                         test,cle = key.split('~')[0],key.split('~')[1]
-                        if(Regexpr.res(conversion(test),dico)): dico[cle] = Tools.weighted_choice(valeurs,probas)
+                        if(Regexpr.res(conversion(test),dico)):
+                            dico[cle] = Tools.weighted_choice(valeurs,probas)
+                            constraints[cle] = test
                     else:
                         # on doit sélectionner selon une probabilité simple
                         probas,valeurs = [],[]
@@ -158,11 +161,13 @@ class Tools:
                 elif(key[0]=='|'):
                     # caractère chainé en fonction d'une autre caractéristique
                     test,cle = key.split('~')[0],key.split('~')[1]
-                    if(Regexpr.res(conversion(test),dico)): dico[cle] = random.choice(ld.dict[key])
+                    if(Regexpr.res(conversion(test),dico)):
+                        dico[cle] = random.choice(ld.dict[key])
+                        constraints[cle] = test
                 else:
                     # sélection aléatoire basique
                     dico[key] = random.choice(ld.dict[key])
-        return dico
+        return (dico,constraints)
 
 class Pnj:
     "Contient les méthodes permettant de créer un objet PnJ"
@@ -173,8 +178,8 @@ class Pnj:
             case None:
                 self.sexe = "Féminin" if(random.randrange(2)==0) else "Masculin"
                 self.name = Tools.gen_nom(self.sexe,ld)
-                self.age = Tools.loi_normale(28,13)
-                self.carac = Tools.fill_regexpr(ld,{'Nom' : self.name,'Age' : self.age, 'Sexe_biologique' : self.sexe})
+                self.age = Tools.loi_normale(30,8)
+                self.carac,self.constraints = Tools.fill_regexpr(ld,{'Nom' : self.name,'Age' : self.age, 'Sexe_biologique' : self.sexe})
                 self.desc = ""
             case _:
                 self.sexe = current.sexe
@@ -188,15 +193,32 @@ class Pnj:
                         # on reroll un nom
                         self.name = current.carac['Nom'] = Tools.gen_nom(self.sexe,ld,composed=True)
                     case 'Age':
-                        self.age = current.carac['Age'] = Tools.loi_normale(28,13)
+                        self.age = current.carac['Age'] = Tools.loi_normale(30,8)
                     case car:
                         # TODO chaining des expressions par arbres
+                        list_reroll = []
+                        for char,filtre in current.constraints.items():
+                            if (car in filtre): list_reroll.append(char)
                         blacklist = [key for key in current.carac if key != car]
                         nextchar = current.carac[car]
                         while nextchar==current.carac[car]:
-                            newchars = Tools.fill_regexpr(ld,current.carac.copy(),blacklist)
+                            newchars = Tools.fill_regexpr(ld,current.carac.copy(),blacklist)[0]
                             nextchar = newchars[car]
                         current.carac[car] = newchars[car]
+
+                        # may work but need test
+                        blacklist = [key for key in current.carac if key not in list_reroll]
+                        newchars,self.constraints = Tools.fill_regexpr(ld,{'Nom' : self.name,'Age' : self.age, 'Sexe_biologique' : self.sexe, change : current.carac[change]},blacklist)
+                        charlist = Tools.fill_regexpr(ld,{'Nom' : self.name,'Age' : self.age, 'Sexe_biologique' : self.sexe, change : current.carac[change]},["Opener","CloserM","CloserF","Middle"])[0].keys()
+                        print(charlist)
+                        for e in list_reroll:
+                            current.carac[e] = newchars[e]
+
+                        newdict = dict()
+                        for key in charlist:
+                            newdict[key] = newchars[key] if key in newchars.keys() else current.carac[key]
+                        current.carac = newdict
+                        
                 self.carac = current.carac
                 self.desc = current.desc
 
