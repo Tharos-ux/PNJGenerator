@@ -3,8 +3,8 @@
 from tensorflow.keras import models, layers, utils, backend as tfk
 import matplotlib.pyplot as plt
 import tensorflow as tf
-import view.plot_ann as vz
-import view.explainer_shap as es
+import reg.view.plot_ann as vz
+import reg.view.explainer_shap as es
 
 
 """

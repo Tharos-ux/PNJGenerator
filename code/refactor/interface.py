@@ -24,7 +24,7 @@ class Conteneur:
             self.button = Button(self.panl, text="Refresh",bg='black', fg='white', command=fenetre.destroy)
             self.panl.add(self.button)
 
-def builder(fenetre,dico)
+def builder(fenetre,dico):
     """ Sert à construire l'interface interne de la fenêtre.
     
     Keywords arguments

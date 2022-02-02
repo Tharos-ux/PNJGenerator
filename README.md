@@ -5,8 +5,9 @@ Ce projet vise à offrir aux rôlistes un script simple, flexible et paramétrab
 ![Interface](https://media.discordapp.net/attachments/878301351753429072/931309209532907550/unknown.png)
 
 L'interface graphique sera sujette à changement, mais le coeur de fonctionnalités restera sensiblement le même, sauf si des requêtes pertinentes sont soulevées.
+Beaucoup de travail reste à faire concernant la pertinence des choix, et l'un des objectifs à court terme est d'implémenter un réseau neuronal pour la génération de noms.
 
-Requiert Python 3.10,utilisant le structural pattern matching pour la gestion d'expression régulières. Peut être lancé en ligne de commande avec la commande bash 'python3.10 main.py'.
+Requiert Python 3.10, utilisant le structural pattern matching pour la gestion d'expression régulières. Peut être lancé en ligne de commande avec la commande bash 'python3.10 main.py'.
 
 
 # Structure de la base de données

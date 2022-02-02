@@ -1,8 +1,8 @@
 from tkinter import *
-import main
 from functools import partial
 from tkinter.filedialog import asksaveasfile
 import platform
+import reg.pnj as p
 
 def linearisationSave(monPnj):
     "Renvoie les éléments d'un PnJ sous forme de texte afin de l'enregistrer"
@@ -38,7 +38,7 @@ def builder(fenetre,dico,pan,master):
     def reroll(charac,pnj,ld,fenetre,dico,pan,master):
         listePnj[index].desc = notes.get("1.0",END)
         # on crée un nouveau template de PnJ de base, temporaire
-        listePnj[index] = main.nouveauPnj(ld,pnj,charac)
+        listePnj[index] = p.Pnj(ld,pnj,charac)
         # on récupère la caractéristique d'intérêt
         # on actualise l'affichage
         builder(fenetre,dico,pan,master)
@@ -96,7 +96,7 @@ def builder(fenetre,dico,pan,master):
         listePnj[index].desc = notes.get("1.0",END)
         index+=indent
         if(index>=len(listePnj)):
-            listePnj.append(main.nouveauPnj(ld))
+            listePnj.append(p.Pnj(ld))
             index = len(listePnj)-1    
         elif(index<0):
             index = 0
@@ -120,7 +120,7 @@ def affichage(listedico):
     global index
     global imgbutton
     ld = listedico
-    listePnj = [main.nouveauPnj(ld)] # le Pnj créé initialement est mis dans la liste
+    listePnj = [p.Pnj(ld)] # le Pnj créé initialement est mis dans la liste
     index = 0
 
     # Déclaration de la fenêtre
@@ -133,8 +133,8 @@ def affichage(listedico):
     fenetre.geometry("450x900+75+75")
     fenetre['background']="#2f3136"
     # make a frame for the title bar
-    imgbutton = PhotoImage(file='button.png')
-    img = PhotoImage(file='title.png')
+    imgbutton = PhotoImage(file='ife/button.png')
+    img = PhotoImage(file='ife/title.png')
 
     # barre de titre
     title_bar = Frame(fenetre, bg='#2f3136', relief='flat', bd=0)
