@@ -7,7 +7,7 @@ import reg.regexpr as r
 import reg.tools as t
 import reg.pnj as p
 import data.loader as l
-import discord
+import bot
 
 def main():
     "Procédure principale"
@@ -21,19 +21,6 @@ def main():
     # dico par défaut
     ld = liste_dicos[list(liste_dicos.keys())[0]] if liste_dicos != dict() else l.Loader("data/data.ini")
 
-    client = discord.Client()
-    client.run("")
-
-    @client.event
-    async def on_ready():
-        print("Le bot est prêt !")
-
-    @client.event
-    async def on_message(message):
-        print(message.content)
-        if message.content == 'Pnj':
-            await message.channel.send(p.Pnj(ld))
-
     # permet un affichage non-graphique
     if("-ng" in sys.argv):
         monPnj = p.Pnj(ld)
@@ -43,6 +30,7 @@ def main():
         for e in lst:
             print(f"{e[0]} = {e[1]}")
     else:
+        #bot.bot(ld)
         f.affichage(ld,liste_dicos)
 
 # si on lance via ligne de commande, on exécute la fonction main
