@@ -111,7 +111,7 @@ def builder(fenetre,dico,pan,master):
         fichier.write(linearisationSave(listePnj[index]))
         fichier.close()
 
-def affichage(listedico):
+def affichage(defdic,liste_dicos):
 
     # Constantes et globales
     COLOR="#36393f"
@@ -119,7 +119,7 @@ def affichage(listedico):
     global listePnj
     global index
     global imgbutton
-    ld = listedico
+    ld = defdic
     listePnj = [p.Pnj(ld)] # le Pnj créé initialement est mis dans la liste
     index = 0
 
@@ -130,7 +130,7 @@ def affichage(listedico):
     def move_window(event):
         fenetre.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
 
-    fenetre.geometry("450x900+75+75")
+    fenetre.geometry("450x950+50+50")
     fenetre['background']="#2f3136"
     # make a frame for the title bar
     imgbutton = PhotoImage(file='ife/button.png')
@@ -161,13 +161,20 @@ def affichage(listedico):
     pan = None # baba is nothing
     builder(window,listePnj[index].carac,pan,fenetre)
 
-    """
     #barre d'état
+    options = [x[:-4] for x in liste_dicos.keys()]
+    clicked = StringVar()
+    clicked.set(options[0])
     status_bar = Frame(fenetre, bg='#2f3136', relief='flat', bd=0)
-    status_text = Label(status_bar,fg="#FFFFFF",bg="#2f3136", text="Texte d'état", font=('Aerial', 12, 'bold'))
+    # status_text = Label(status_bar,fg="#FFFFFF",bg="#2f3136", text="Texte d'état", font=('Aerial', 12, 'bold'))
+    drop = OptionMenu( status_bar , clicked , *options )
     status_bar.pack(expand=1, fill='none')
-    status_text.pack(side=BOTTOM)
-    """
+    #status_text.pack(side=BOTTOM)
+    drop.pack()
+
+    def getdico():
+        "renvoie le dico associé à l'état de la dropdown list"
+        return liste_dicos[f"{clicked.get()}.ini"]
 
     # permet de renvoyer la fenêtre à l'arrière en cas de perte de focus
     fenetre.lift()
@@ -176,3 +183,16 @@ def affichage(listedico):
 
     # Boucle d'exécution
     fenetre.mainloop()
+
+class Affichage:
+    "Objet fenêtre"
+
+    def __init__(self):
+        "constructeur de fenêtre"
+        self.palette = {'text-fg': '#FFFFFF', 'accent-1': '#36393f', 'accent-2': '#2f3136'}
+        self.fenetre = Tk()
+
+
+    def getdico(liste):
+        "renvoie le dico associé à l'état de la dropdown list"
+        return liste[f"{self.clicked.get()}.ini"]
