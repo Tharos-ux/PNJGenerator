@@ -30,7 +30,7 @@ def main():
         for e in lst:
             print(f"{e[0]} = {e[1]}")
     else:
-        bot.bot(ld)
+        # bot.bot(ld)
         f.affichage(ld,liste_dicos)
 
 # si on lance via ligne de commande, on exécute la fonction main
