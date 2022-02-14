@@ -7,7 +7,6 @@ import reg.regexpr as r
 import reg.tools as t
 import reg.pnj as p
 import data.loader as l
-import bot
 
 def main():
     "Procédure principale"
@@ -30,9 +29,8 @@ def main():
         for e in lst:
             print(f"{e[0]} = {e[1]}")
     else:
-        # bot.bot(ld)
         f.affichage(ld,liste_dicos)
-
+        
 # si on lance via ligne de commande, on exécute la fonction main
 if __name__ == "__main__":
     main()
