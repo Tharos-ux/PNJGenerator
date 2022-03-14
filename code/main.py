@@ -16,9 +16,9 @@ def main():
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
         if filename.endswith(".ini"):
-            liste_dicos[filename] = l.Loader(f"{directory_in_str}{filename}")
+            liste_dicos[filename] = l.open_dico(f"{directory_in_str}{filename}")
     # dico par défaut
-    ld = liste_dicos[list(liste_dicos.keys())[0]] if liste_dicos != dict() else l.Loader("data/data.ini")
+    ld = liste_dicos[list(liste_dicos.keys())[0]] if liste_dicos != dict() else l.open_dico("data/data.ini")
 
     # permet un affichage non-graphique
     if("-ng" in sys.argv):

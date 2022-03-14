@@ -69,12 +69,12 @@ class Tools:
     def fill_regexpr(ld,dico,blacklist=["Opener","CloserM","CloserF","Middle"]):
         "Effectue une attribution des caractéristiques annexes"
         constraints = dict()
-        for key in ld.dict:
+        for key in ld:
             if(key not in blacklist):
                 if('%' in key):
                     if('|' in key):
                         probas,valeurs = [],[]
-                        for e in ld.dict[key]:
+                        for e in ld[key]:
                             probas.append(int(e.split('%')[0]))
                             valeurs.append(e.split('%')[1])
                         # caractère chainé en fonction d'une autre caractéristique + proba
@@ -86,7 +86,7 @@ class Tools:
                     else:
                         # on doit sélectionner selon une probabilité simple
                         probas,valeurs = [],[]
-                        for e in ld.dict[key]:
+                        for e in ld[key]:
                             probas.append(int(e.split('%')[0]))
                             valeurs.append(e.split('%')[1])
                         dico[key[1:]] = Tools.weighted_choice(valeurs,probas)
@@ -94,9 +94,9 @@ class Tools:
                     # caractère chainé en fonction d'une autre caractéristique
                     test,cle = key.split('~')[0],key.split('~')[1]
                     if(r.Regexpr.res(Tools.conversion(test),dico)):
-                        dico[cle] = random.choice(ld.dict[key])
+                        dico[cle] = random.choice(ld[key])
                         constraints[cle] = test
                 else:
                     # sélection aléatoire basique
-                    dico[key] = random.choice(ld.dict[key])
+                    dico[key] = random.choice(ld[key])
         return (dico,constraints)
